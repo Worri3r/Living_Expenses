@@ -20,29 +20,59 @@ class User:
         else:
             pass
 
-            
-
-
-
-
 class Calculator:
     
-    def __init__(self, fixed_cost = 50, pers_cost = 30, saving = 20):
-        self.fixed_cost = fixed_cost
-        self.pers_cost = pers_cost
-        self.saving = saving
+    def __init__(self, income):
+        self.income = income
+        self.fixed_cost_perc = 0.5
+        self.pers_cost_perc = 0.3
+        self.saving_perc = 0.2
+        self.fixed_cost = income * self.fixed_cost_perc
+        self.pers_cost = income * self.pers_cost_perc
+        self.saving = income * self.saving_perc
 
     def __repr__(self):
         pass
+
+    def prefer_saving(self, choice, input_percent):
+        if choice == "Saving":
+            self.saving_perc = input_percent / 100
+            self.pers_cost_perc = 1.0 - (self.fixed_cost_perc + self.saving_perc)
+            self.saving = self.income * self.saving_perc
+            self.pers_cost = self.income * self.pers_cost_perc
+        else:
+            self.pers_cost_perc = input_percent / 100
+            self.saving_perc = 1.0 - (self.fixed_cost_perc + self.pers_cost_perc)
+            self.pers_cost = self.income * self.pers_cost_perc
+            self.saving = self.income * self.saving_perc
+        
+
+
+
 
 
 #Welcoming message!
 print("This program is a living expenses calculator. \nIt will ask you some personal questions to calculate with your monthly wage your living expenses in three sections: \n1. Fixed costs \n2. Personal Costs (like gym membership or pocketmoney) \n3. Money you are saving \nIt will also give you the option to prefer saving your money or using your money for personal costs. \nLet\'s get started: \n \n \n \n")
 
-#user_income = float(input("How much are you earning monthly?"))
+user_income = float(input("How much are you earning monthly? "))
+
+
+user1 = User(income = user_income)
+calc = Calculator(user_income)
+
+
+#Logic if User prefers saving, personel or wants the default
+
+#choice_prefer = input("Saving, Personal or Default? ")
+#if choice_prefer == "Saving" or choice_prefer == "Personel":
+#    percent = float(input("How much? (Cannot be higher than 50%) "))
+#    calc.prefer_saving(choice_prefer, percent)
+#else:
+#     pass
 
 
 #Logic for a user input
+
 #choice = input("Do you want to add something | Yes/No")
 #if choice == "Yes":
 #    cash = float(input("Please enter how much:"))
