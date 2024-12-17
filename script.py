@@ -2,12 +2,10 @@ class User:
     
     def __init__(self, income = 0.0, rent = 0.0, electricity = 0.0, internet_phone = 0.0, smartphone = 0.0, gym = 0.0, food_expenses = 0.0, saving = 0.0):
         self.income = income
-        self.rent = rent
-        self.electricity = electricity
-        self.internet_phone = internet_phone
-        self.food_expenses = food_expenses
+        self.fix_cost = rent + electricity + internet_phone
         self.saving = saving
-        self.personal = gym + smartphone
+        self.personal = gym + smartphone + food_expenses
+        self.total_cost = self.fix_cost + self.saving + self.personal
 
     def __repr__(self):
         pass
@@ -24,6 +22,7 @@ class Calculator:
     
     def __init__(self, income):
         self.income = income
+        self.perc1_income = 100 / income 
         self.fixed_cost_perc = 0.5
         self.pers_cost_perc = 0.3
         self.saving_perc = 0.2
@@ -34,6 +33,8 @@ class Calculator:
     def __repr__(self):
         pass
 
+    #user input what he prefers (saving or personel cost). The user is able to enter how much percent of his income he will save/use for personel cost. 
+    #The code will deduct which is not chosen.
     def prefer_saving(self, choice, input_percent):
         if choice == "Saving":
             self.saving_perc = input_percent / 100
@@ -46,6 +47,15 @@ class Calculator:
             self.pers_cost = self.income * self.pers_cost_perc
             self.saving = self.income * self.saving_perc
         
+    #if the fix cost is under 50%, it will add the remaining percent (of 50) to either savings or personal cost
+    def under_50(self, choice, user_fixcost):
+        if user_fixcost < self.fixed_cost:
+            rest_perc = self.fixed_cost_perc - (user_fixcost * self.perc1_income) / 100
+            self.fixed_cost_perc = self.fixed_cost_perc - rest_perc
+            if choice == "Personel":
+                self.pers_cost_perc += rest_perc
+            else:
+                self.saving_perc += rest_perc
 
 
 
@@ -57,8 +67,9 @@ print("This program is a living expenses calculator. \nIt will ask you some pers
 user_income = float(input("How much are you earning monthly? "))
 
 
-user1 = User(income = user_income)
+user1 = User(rent=100, electricity=50, internet_phone=50)
 calc = Calculator(user_income)
+
 
 
 #Logic if User prefers saving, personel or wants the default
