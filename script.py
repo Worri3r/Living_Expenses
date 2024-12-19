@@ -8,7 +8,7 @@ class User:
         self.total_cost = self.fix_cost + self.saving + self.personal
 
     def __repr__(self):
-        return "You have an income of {user_income}€. Right now your monthly total cost are {total_cost}€. From that are the fixated cost {fix_cost}€, the cost for personel usage are {personel}€ and you are saving {saving}€.".format(user_income=self.income, total_cost=self.total_cost, fix_cost=self.fix_cost, personel=self.personal, saving=self.saving)
+        return "\nYou have an income of {user_income}€. Right now your monthly total cost are {total_cost}€. From that are the fixated cost {fix_cost}€, the cost for personel usage are {personel}€ and you are saving {saving}€.".format(user_income=self.income, total_cost=self.total_cost, fix_cost=self.fix_cost, personel=self.personal, saving=self.saving)
 
     def input(self, saving_personal, input):
         if saving_personal == "Saving":
@@ -16,6 +16,9 @@ class User:
             self.total_cost += input
         elif saving_personal == "Personal":
             self.personal += input
+            self.total_cost += input
+        elif saving_personal == "Fixed cost":
+            self.fix_cost += input
             self.total_cost += input
         else:
             pass
@@ -69,6 +72,19 @@ class Calculator:
         else:
             self.pers_cost_perc -= over_perc
 
+    def income_in_perc(self, user_fix, user_personal, user_saving):
+        user_fix_perc = user_fix * self.perc1_income
+        user_personal_perc = user_personal * self.perc1_income
+        user_saving_perc = user_saving * self.perc1_income
+        total = user_fix_perc + user_personal_perc + user_saving_perc
+        rest_perc = 100 - total
+        if rest_perc > 0:
+            print("Currently your income is splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(user_fix_perc, 2), pers=round(user_personal_perc, 2), save=round(user_saving_perc, 2), rest=round(rest_perc, 2)))
+        else:
+            over = total - 100
+            print("You are living {over_perc}% over your wage. Please seek a financial advisor.".format(over_perc=round(over, 2)))
+
+
 
 
 
@@ -90,20 +106,21 @@ calc = Calculator(user_income)
 
 #Logic for a user input
 def user_input():
-    add_quest = input("Do you have aynthing to add? Yes|No ")
+    add_quest = input("\nDo you have aynthing to add? Yes|No ")
     if add_quest == "Yes":
         how_much = float(input("How much do you want to add? "))
-        where = input("Where do you want to add it to? Saving|Personal ")
+        where = input("Where do you want to add it to? Fixed cost|Saving|Personal ")
         user1.input(where, how_much)
         print("\nYou added {cost} to your {add}.".format(cost=how_much, add=where))
         user_input()
     else:
-        print("\nUser has nothing to add.")
+        print("\nYou have nothing to add.")
 
 user_input()
 
 print(user1)
 
+calc.income_in_perc(user1.fix_cost, user1.personal, user1.saving)
     
 
 #Logic if User prefers saving, personel or wants the default
