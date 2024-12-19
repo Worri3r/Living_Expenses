@@ -8,13 +8,15 @@ class User:
         self.total_cost = self.fix_cost + self.saving + self.personal
 
     def __repr__(self):
-        pass
+        return "You have an income of {user_income}€. Right now your monthly total cost are {total_cost}€. From that are the fixated cost {fix_cost}€, the cost for personel usage are {personel}€ and you are saving {saving}€.".format(user_income=self.income, total_cost=self.total_cost, fix_cost=self.fix_cost, personel=self.personal, saving=self.saving)
 
-    def input1(self, choice, saving_personal, input):
-        if choice == "Yes" and saving_personal == "Saving":
+    def input(self, saving_personal, input):
+        if saving_personal == "Saving":
             self.saving += input
-        elif choice == "Yes" and saving_personal == "Personal":
+            self.total_cost += input
+        elif saving_personal == "Personal":
             self.personal += input
+            self.total_cost += input
         else:
             pass
 
@@ -31,7 +33,7 @@ class Calculator:
         self.saving = income * self.saving_perc
 
     def __repr__(self):
-        pass
+        print("You have a income of {income}€. From the given input it is calculated you can use {fix_cost}€ for your fix cost, {pers_cost}€ for your personel cost and {saving}€ for your savings.".format(income=self.income, fix_cost=self.fixed_cost, pers_cost=self.pers_cost, saving=self.saving))
 
     #user input what he prefers (saving or personel cost). The user is able to enter how much percent of his income he will save/use for personel cost. 
     #The code will deduct which is not chosen.
@@ -41,21 +43,31 @@ class Calculator:
             self.pers_cost_perc = 1.0 - (self.fixed_cost_perc + self.saving_perc)
             self.saving = self.income * self.saving_perc
             self.pers_cost = self.income * self.pers_cost_perc
+            print("Your savings will be calculated with {saving_perc}% and your personel cost with {pers_cost_perc}%".format(saving_perc=self.saving_perc * 100, pers_cost_perc=self.pers_cost_perc * 100))
         else:
             self.pers_cost_perc = input_percent / 100
             self.saving_perc = 1.0 - (self.fixed_cost_perc + self.pers_cost_perc)
             self.pers_cost = self.income * self.pers_cost_perc
             self.saving = self.income * self.saving_perc
+            print("Your personel cost will be calculated with {pers_cost_perc}% and your personel cost with {saving_perc}%".format(saving_perc=self.saving_perc * 100, pers_cost_perc=self.pers_cost_perc * 100))
         
     #if the fix cost is under 50%, it will add the remaining percent (of 50) to either savings or personal cost
-    def under_50(self, choice, user_fixcost):
-        if user_fixcost < self.fixed_cost:
-            rest_perc = self.fixed_cost_perc - (user_fixcost * self.perc1_income) / 100
-            self.fixed_cost_perc = self.fixed_cost_perc - rest_perc
-            if choice == "Personel":
-                self.pers_cost_perc += rest_perc
-            else:
-                self.saving_perc += rest_perc
+    def fix_under_50(self, choice, user_fixcost):
+        rest_perc = self.fixed_cost_perc - (user_fixcost * self.perc1_income) / 100
+        self.fixed_cost_perc = self.fixed_cost_perc - rest_perc
+        if choice == "Personel":
+            self.pers_cost_perc += rest_perc
+        else:
+            self.saving_perc += rest_perc
+
+    #if the fix cost is over 50%, it will deduct the percent over 50% from either savings or personel cost
+    def fix_over_50(self, choice, user_fixcost):
+        over_perc = (user_fixcost * self.perc1_income) - 0.5
+        self.fixed_cost_perc = self.fixed_cost_perc + over_perc
+        if choice == "Saving":
+            self.saving_perc -= over_perc
+        else:
+            self.pers_cost_perc -= over_perc
 
 
 
@@ -65,12 +77,34 @@ class Calculator:
 print("This program is a living expenses calculator. \nIt will ask you some personal questions to calculate with your monthly wage your living expenses in three sections: \n1. Fixed costs \n2. Personal Costs (like gym membership or pocketmoney) \n3. Money you are saving \nIt will also give you the option to prefer saving your money or using your money for personal costs. \nLet\'s get started: \n \n \n \n")
 
 user_income = float(input("How much are you earning monthly? "))
+user_rent = float(input("How much are you paying for rent? "))
+user_electricity = float(input("How high is your electricity bill? "))
+user_internet = float(input("How much are you paying for your internet connection? "))
+user_smartphone = float(input("What is your monthly bill for your smartphone and LTE usage? "))
+user_gym = float(input("If you have a gym membership: how high are the cost? (Just right 0 if you have no membership) "))
+user_food = float(input("How much are you paying approxiamtly monthly for your food? "))
+user_saving = float(input("For your income how much are you saving montly right now? (If nothing just write 0) "))
 
-
-user1 = User(rent=100, electricity=50, internet_phone=50)
+user1 = User(user_income, user_rent, user_electricity, user_internet, user_smartphone, user_gym, user_food, user_saving)
 calc = Calculator(user_income)
 
+#Logic for a user input
+def user_input():
+    add_quest = input("Do you have aynthing to add? Yes|No ")
+    if add_quest == "Yes":
+        how_much = float(input("How much do you want to add? "))
+        where = input("Where do you want to add it to? Saving|Personal ")
+        user1.input(where, how_much)
+        print("\nYou added {cost} to your {add}.".format(cost=how_much, add=where))
+        user_input()
+    else:
+        print("\nUser has nothing to add.")
 
+user_input()
+
+print(user1)
+
+    
 
 #Logic if User prefers saving, personel or wants the default
 
@@ -82,13 +116,7 @@ calc = Calculator(user_income)
 #     pass
 
 
-#Logic for a user input
 
-#choice = input("Do you want to add something | Yes/No")
-#if choice == "Yes":
-#    cash = float(input("Please enter how much:"))
-#    choice2 = input("Do you want to add it do your savings or personal costs | Enter: Saving/Personal")
-#user1.input1(choice, choice2, cash)
 
 
 
