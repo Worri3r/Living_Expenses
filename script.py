@@ -92,17 +92,21 @@ class Calculator:
                 self.user_saving_perc += self.user_rest_perc / 2
                 print("Added {rest}% to your personal costs and savings".format(rest=round(self.user_rest_perc / 2, 2)))
                 print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             elif user_input == "Saving":
                 self.user_saving_perc += self.user_rest_perc
                 print("Added {rest}% to your savings".format(rest=round(self.user_rest_perc, 2)))
                 print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             elif user_input == "Personal":
                 self.user_personal_perc += self.user_rest_perc
                 print("Added {rest}% to your personal costs".format(rest=round(self.user_rest_perc, 2)))
                 print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             else:
                 print("You decided to do nothing with your rest percentage.")
                 print("Your income remains splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
+                print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings. You are not using {rest}€ of your income.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2), rest=round((self.user_rest_perc / 100) * self.income, 2)))
         else:
             over = self.user_total - 100
             print("You are living {over_perc}% over your wage. Please seek a financial advisor.".format(over_perc=round(over, 2)))
