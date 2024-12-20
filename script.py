@@ -27,7 +27,12 @@ class Calculator:
     
     def __init__(self, income):
         self.income = income
-        self.perc1_income = 100 / income 
+        self.perc1_income = 100 / income
+        self.user_fix_perc = 0
+        self.user_personal_perc = 0
+        self.user_saving_perc = 0
+        self.user_total = 0
+        self.user_rest_perc = 0 
         self.fixed_cost_perc = 0.5
         self.pers_cost_perc = 0.3
         self.saving_perc = 0.2
@@ -72,16 +77,34 @@ class Calculator:
         else:
             self.pers_cost_perc -= over_perc
 
+    #calculates the given costs in percent and tells the user if he has a rest or is living over his wage
     def income_in_perc(self, user_fix, user_personal, user_saving):
-        user_fix_perc = user_fix * self.perc1_income
-        user_personal_perc = user_personal * self.perc1_income
-        user_saving_perc = user_saving * self.perc1_income
-        total = user_fix_perc + user_personal_perc + user_saving_perc
-        rest_perc = 100 - total
-        if rest_perc > 0:
-            print("Currently your income is splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(user_fix_perc, 2), pers=round(user_personal_perc, 2), save=round(user_saving_perc, 2), rest=round(rest_perc, 2)))
+        self.user_fix_perc = user_fix * self.perc1_income
+        self.user_personal_perc = user_personal * self.perc1_income
+        self.user_saving_perc = user_saving * self.perc1_income
+        self.user_total = self.user_fix_perc + self.user_personal_perc + self.user_saving_perc
+        self.user_rest_perc = 100 - self.user_total
+        if self.user_rest_perc > 0:
+            print("Currently your income is splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
+            user_input = input("Now please choose how you want to use your rest percentage. You can either split it 50/50 to your savings and personal cost, put it all in your savings or use it all for your personal cost. \nOf course u can let it be as it is too (not recommended)! Please choose: Split|Saving|Personal|Nothing ")
+            if user_input == "Split":
+                self.user_personal_perc += self.user_rest_perc / 2
+                self.user_saving_perc += self.user_rest_perc / 2
+                print("Added {rest}% to your personal costs and savings".format(rest=round(self.user_rest_perc / 2, 2)))
+                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+            elif user_input == "Saving":
+                self.user_saving_perc += self.user_rest_perc
+                print("Added {rest}% to your savings".format(rest=round(self.user_rest_perc, 2)))
+                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+            elif user_input == "Personal":
+                self.user_personal_perc += self.user_rest_perc
+                print("Added {rest}% to your personal costs".format(rest=round(self.user_rest_perc, 2)))
+                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+            else:
+                print("You decided to do nothing with your rest percentage.")
+                print("Your income remains splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
         else:
-            over = total - 100
+            over = self.user_total - 100
             print("You are living {over_perc}% over your wage. Please seek a financial advisor.".format(over_perc=round(over, 2)))
 
 
