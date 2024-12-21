@@ -86,69 +86,75 @@ class Calculator:
         self.user_rest_perc = 100 - self.user_total
         if self.user_rest_perc > 0:
             print("Currently your income is splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
-            user_input = input("Now please choose how you want to use your rest percentage. You can either split it 50/50 to your savings and personal cost, put it all in your savings or use it all for your personal cost. \nOf course u can let it be as it is too (not recommended)! Please choose: Split|Saving|Personal|Nothing ")
+            user_input = input("\nNow please choose how you want to use your rest percentage. You can either split it 50/50 to your savings and personal cost, put it all in your savings or use it all for your personal cost. \nOf course u can let it be as it is too (not recommended)! Please choose: Split|Saving|Personal|Nothing ")
             if user_input == "Split":
                 self.user_personal_perc += self.user_rest_perc / 2
                 self.user_saving_perc += self.user_rest_perc / 2
-                print("Added {rest}% to your personal costs and savings".format(rest=round(self.user_rest_perc / 2, 2)))
-                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("\nAdded {rest}% to your personal costs and savings.".format(rest=round(self.user_rest_perc / 2, 2)))
+                print("\nYour income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
                 print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             elif user_input == "Saving":
                 self.user_saving_perc += self.user_rest_perc
-                print("Added {rest}% to your savings".format(rest=round(self.user_rest_perc, 2)))
-                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("\nAdded {rest}% to your savings.".format(rest=round(self.user_rest_perc, 2)))
+                print("\nYour income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
                 print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             elif user_input == "Personal":
                 self.user_personal_perc += self.user_rest_perc
-                print("Added {rest}% to your personal costs".format(rest=round(self.user_rest_perc, 2)))
-                print("Your income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
+                print("\nAdded {rest}% to your personal costs.".format(rest=round(self.user_rest_perc, 2)))
+                print("\nYour income is now splitted in {fix}% fix costs, {pers}% personal costs and {save}% savings.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2)))
                 print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2)))
             else:
-                print("You decided to do nothing with your rest percentage.")
-                print("Your income remains splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
+                print("\nYou decided to do nothing with your rest percentage.")
+                print("\nYour income remains splitted in {fix}% fixed cost, {pers}% personal cost and {save}% savings. You are not using {rest}% of your income.".format(fix=round(self.user_fix_perc, 2), pers=round(self.user_personal_perc, 2), save=round(self.user_saving_perc, 2), rest=round(self.user_rest_perc, 2)))
                 print("Which are as a number: {fix}€ fix costs, {pers}€ personal costs and {save}€ savings. You are not using {rest}€ of your income.".format(fix=round((self.user_fix_perc / 100) * self.income, 2), pers=round((self.user_personal_perc / 100) * self.income, 2), save=round((self.user_saving_perc / 100) * self.income, 2), rest=round((self.user_rest_perc / 100) * self.income, 2)))
         else:
             over = self.user_total - 100
-            print("You are living {over_perc}% over your wage. Please seek a financial advisor.".format(over_perc=round(over, 2)))
+            print("\nYou are living {over_perc}% over your wage. Please seek a financial advisor.".format(over_perc=round(over, 2)))
 
 
 
 
 
+def main():
 
-#Welcoming message!
-print("This program is a living expenses calculator. \nIt will ask you some personal questions to calculate with your monthly wage your living expenses in three sections: \n1. Fixed costs \n2. Personal Costs (like gym membership or pocketmoney) \n3. Money you are saving \nIt will also give you the option to prefer saving your money or using your money for personal costs. \nLet\'s get started: \n \n \n \n")
+    #Welcoming message!
+    print("\n\n\n\nThis program is a living expenses calculator. \nIt will ask you some personal questions to calculate with your monthly wage your living expenses in three sections: \n1. Fixed costs \n2. Personal Costs (like gym membership or pocketmoney) \n3. Money you are saving \nIt will also give you the option to prefer saving your money or using your money for personal costs. \nLet\'s get started: \n \n \n \n")
 
-user_income = float(input("How much are you earning monthly? "))
-user_rent = float(input("How much are you paying for rent? "))
-user_electricity = float(input("How high is your electricity bill? "))
-user_internet = float(input("How much are you paying for your internet connection? "))
-user_smartphone = float(input("What is your monthly bill for your smartphone and LTE usage? "))
-user_gym = float(input("If you have a gym membership: how high are the cost? (Just right 0 if you have no membership) "))
-user_food = float(input("How much are you paying approxiamtly monthly for your food? "))
-user_saving = float(input("For your income how much are you saving montly right now? (If nothing just write 0) "))
+    user_income = float(input("How much are you earning monthly? "))
+    user_rent = float(input("How much are you paying for rent? "))
+    user_electricity = float(input("How high is your electricity bill? "))
+    user_internet = float(input("How much are you paying for your internet connection? "))
+    user_smartphone = float(input("What is your monthly bill for your smartphone and LTE usage? "))
+    user_gym = float(input("If you have a gym membership: how high are the cost? (Just right 0 if you have no membership) "))
+    user_food = float(input("How much are you paying approxiamtly monthly for your food? "))
+    user_saving = float(input("For your income how much are you saving montly right now? (If nothing just write 0) "))
 
-user1 = User(user_income, user_rent, user_electricity, user_internet, user_smartphone, user_gym, user_food, user_saving)
-calc = Calculator(user_income)
+    user1 = User(user_income, user_rent, user_electricity, user_internet, user_smartphone, user_gym, user_food, user_saving)
+    calc = Calculator(user_income)
 
-#Logic for a user input
-def user_input():
-    add_quest = input("\nDo you have aynthing to add? Yes|No ")
-    if add_quest == "Yes":
-        how_much = float(input("How much do you want to add? "))
-        where = input("Where do you want to add it to? Fixed cost|Saving|Personal ")
-        user1.input(where, how_much)
-        print("\nYou added {cost} to your {add}.".format(cost=how_much, add=where))
-        user_input()
-    else:
-        print("\nYou have nothing to add.")
+    #Logic for a user input
+    def user_input():
+        add_quest = input("\nDo you have aynthing to add? Yes|No ")
+        if add_quest == "Yes":
+            how_much = float(input("How much do you want to add? "))
+            where = input("Where do you want to add it to? Fixed cost|Saving|Personal ")
+            user1.input(where, how_much)
+            print("\nYou added {cost} to your {add}.".format(cost=how_much, add=where))
+            user_input()
+        else:
+            print("\nYou have nothing to add.")
 
-user_input()
+    user_input()
 
-print(user1)
-
-calc.income_in_perc(user1.fix_cost, user1.personal, user1.saving)
+    print(user1)
     
+    #Restarting the code if the user wants to
+    calc.income_in_perc(user1.fix_cost, user1.personal, user1.saving)
+    restart_quest = input("\nDo you want to restart the calculator? Yes|No ")
+    if restart_quest == "Yes":
+        main()
+
+main()
 
 #Logic if User prefers saving, personel or wants the default
 
